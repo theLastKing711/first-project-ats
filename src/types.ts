@@ -1,20 +1,20 @@
 
-export interface ApplicationFOrmApi {
-    data: ApplicationFOrm;
+export interface ApplicationFOrmApi<T = CreateQuestionTemplate> {
+    data: ApplicationFOrm<T>;
 }
 
 
-export interface ApplicationFOrm {
+export interface ApplicationFOrm<T = CreateQuestionTemplate> {
     id: string;
     type: string;
-    attributes: ApplicationFormAttributes
+    attributes: ApplicationFormAttributes<T>
 }
 
-export interface ApplicationFormAttributes {
+export interface ApplicationFormAttributes<T = CreateQuestionTemplate> {
     coverImage: string; // format uri
     personalInformation: PersonalInformation;
-    profile: Profile;
-    personalQuestions: QuestionTemplate[];
+    profile: Profile<T>;
+    customisedQuestions: T[];
 }
 
 export interface PersonalInformation {
@@ -34,11 +34,11 @@ export interface  PersonalInformationTemplate {
   show: boolean; //default: true
 }
 
-export interface Profile {
+export interface Profile<T = CreateQuestionTemplate> {
     education: ProfileTemplate; 
     experience: ProfileTemplate;
     resume: ProfileTemplate; 
-    profileQuestions?: QuestionTemplate[];
+    profileQuestions?: T[];
 }
 
 export interface ProfileTemplate {

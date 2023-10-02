@@ -1,10 +1,19 @@
+import React, { CSSProperties } from "react";
 import useForm from "../../hooks/useForm";
 import { ApplicationFOrmApi, PersonalInformation } from "../../types";
-import AddQuestions from "../add-questions/AddQuestions";
 import FormCard from "../form-card/FormCard";
 import PersonalInformationForm from "../personal-information-form/PersonalInformationForm";
 
-const PersonalInformationCard = () => {
+const rootStyles: CSSProperties = {
+  padding: "1.5rem 1rem",
+};
+
+interface Props {
+  addQuestionNode: React.ReactNode;
+}
+
+const PersonalInformationCard = ({ addQuestionNode }: Props) => {
+  console.log("personal changing");
   const { form, updateForm } = useForm();
 
   const handlePersonalInformationChange = (
@@ -38,13 +47,13 @@ const PersonalInformationCard = () => {
   return (
     <FormCard title="Personal Information">
       {form?.data && (
-        <>
+        <div style={rootStyles}>
           <PersonalInformationForm
             personalInformation={form.data.attributes.personalInformation}
             onPersonalInformationChange={handlePersonalInformationChange}
           />
-          <AddQuestions />
-        </>
+          {addQuestionNode}
+        </div>
       )}
     </FormCard>
   );

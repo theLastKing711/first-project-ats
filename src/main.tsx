@@ -19,6 +19,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           Checkbox: {
             controlInteractiveSize: 20,
           },
+          Collapse: {
+            headerBg: "white",
+            lineWidth: 0,
+            padding: 0,
+            contentPadding: 0,
+          },
         },
       }}
     >

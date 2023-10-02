@@ -1,7 +1,6 @@
 import { Checkbox, ConfigProvider, Input, Switch } from "antd";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { SwitchChangeEventHandler } from "antd/es/switch";
 import { CSSProperties } from "react";
+import QuestionSeperator from "../question-seperator/QuestionSeperator";
 
 const rootStyles: CSSProperties = {
   marginBottom: "1.44rem",
@@ -55,19 +54,6 @@ const switchLabel: CSSProperties = {
   cursor: "pointer",
 };
 
-const inputStyles: CSSProperties = {
-  border: "none",
-  borderBottom: "0.0625rem solid #C4C4C4",
-  boxShadow: "none",
-  borderRadius: "0",
-};
-
-const seperatorStyles: CSSProperties = {
-  marginTop: "1.56rem",
-  height: "0.0625rem",
-  background: "#C4C4C4",
-};
-
 interface Props {
   id: string;
   label: string | JSX.Element;
@@ -77,9 +63,15 @@ interface Props {
     isInternal: boolean;
     onIsInternalChange: (isChecked: boolean) => void;
   };
+  shouldShowSeperator?: boolean;
 }
 
-const FormInput = ({ id, label, onChange, extraOption }: Props) => {
+const FormInput = ({
+  id,
+  label,
+  extraOption,
+  shouldShowSeperator = true,
+}: Props) => {
   const switchLabelText = extraOption?.isShown ? "Hide" : "Show";
 
   const isLabelString = typeof label === "string";
@@ -124,8 +116,7 @@ const FormInput = ({ id, label, onChange, extraOption }: Props) => {
           </>
         )}
       </div>
-      <div style={seperatorStyles} />
-      {/* <Input style={inputStyles} id={id} onChange={onChange} /> */}
+      {shouldShowSeperator && <QuestionSeperator />}
     </div>
   );
 };

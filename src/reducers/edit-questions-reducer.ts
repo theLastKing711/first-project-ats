@@ -4,7 +4,7 @@ export const initalQuestionsState: QuestionState = {
     questions: [],
 };
 
-export function addQuestionReducer(state: QuestionState, action: QuestionAction): QuestionState {
+export function editQuestionReducer(state: QuestionState, action: QuestionAction): QuestionState {
   const { type } = action;
 
   switch (type) {
@@ -27,104 +27,6 @@ export function addQuestionReducer(state: QuestionState, action: QuestionAction)
         return {
             ...state,
             questions: newList,
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_PARAGRAPH:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedParagraphQuestions(state.questions, id)
-        
-
-        return {
-            ...state,
-            questions: updatedQuestions
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_SHORT_ANSWER:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedShortAnswerQuestions(state.questions, id);
-        
-
-        return {
-            ...state,
-            questions: updatedQuestions
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_DROP_DOWN:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedDropdownQuestions(state.questions, id);
-        
-        return {
-            ...state,
-            questions: updatedQuestions 
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_MULTIPLE_CHOICE:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedChoicesQuestions(state.questions, id);
-        
-        return {
-            ...state,
-            questions: updatedQuestions 
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_DATE:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedDateQuestions(state.questions, id);
-        
-        return {
-            ...state,
-            questions: updatedQuestions 
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_NUMBER:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedNumberQuestions(state.questions, id);
-        
-        return {
-            ...state,
-            questions: updatedQuestions 
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_YES_NO:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedYesNoQuestions(state.questions, id);
-        
-        return {
-            ...state,
-            questions: updatedQuestions 
-        }
-        
-    }
-    case QuestionActionKind.SET_QUESTION_TO_FILE_UPLOAD:
-    {
-        const { id } = action;
-        
-        const updatedQuestions = getResetedFileUploadQuestions(state.questions, id);
-        
-        return {
-            ...state,
-            questions: updatedQuestions 
         }
         
     }
@@ -391,22 +293,8 @@ const getUpdatedParagraphQuestions = (questionList: QuestionTemplateList, id: st
     return resetedQuestionQuestions;
 }
 
-
-const getResetedShortAnswerQuestions = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
-    const resetedQuestionQuestions = getResetedQuestions(questionList, {id, type: 'ShortAnswer'});
-    
-    return resetedQuestionQuestions;
-}
-
 const getUpdatedShortAnswerQuestions = (questionList: QuestionTemplateList, id: string, question: string): CreateQuestionTemplate[] => {
     const resetedQuestionQuestions = getResetedQuestions(questionList, {id, type: 'ShortAnswer', question});
-    
-    return resetedQuestionQuestions;
-}
-
-const getResetedDropdownQuestions = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
-    const resetedQuestionQuestions = 
-        getResetedQuestions(questionList, {id, type: 'Dropdown', choices: [getNewChoice(questionList, id)]});
     
     return resetedQuestionQuestions;
 }
@@ -414,17 +302,6 @@ const getResetedDropdownQuestions = (questionList: QuestionTemplateList, id: str
 const getUpdatedDropdownQuestionQuestions = (questionList: QuestionTemplateList, id: string, question: string): CreateQuestionTemplate[] => {
     const resetedQuestionQuestions = 
         getUpdatedQuestions(questionList, {id, choices: [getNewChoice(questionList, id)], question});
-    
-    return resetedQuestionQuestions;
-}
-
-const getUpdatedDropdownChoiceQuestions = (questionList: QuestionTemplateList, id: string, choice: CreateChoice): CreateQuestionTemplate[] => {
-    const dropDownChoices = getQuestionChoices(questionList, id);
-
-    const newChoices = getUpdatedChoices(dropDownChoices, choice.id, choice.value);
-
-    const resetedQuestionQuestions = 
-        getUpdatedQuestions(questionList, {id, choices: newChoices});
     
     return resetedQuestionQuestions;
 }
@@ -465,32 +342,14 @@ const getUpdatedChoices = (choices: CreateChoice[], choiceId: string, choice: st
     return  choices.map<CreateChoice>(x => x.id === choiceId ? {...x, value: choice} : x);
 }
 
-const getResetedDateQuestions = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
-    const resetedQuestionQuestions = getResetedQuestions(questionList, {id, type: 'Date'});
-    
-    return resetedQuestionQuestions;
-}
-
 const getUpdatedDateQuestions = (questionList: QuestionTemplateList, id: string, question: string): CreateQuestionTemplate[] => {
     const resetedQuestionQuestions = getUpdatedQuestions(questionList, {id, question});
     
     return resetedQuestionQuestions;
 }
 
-const getResetedNumberQuestions = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
-    const resetedQuestionQuestions = getResetedQuestions(questionList, {id, type: 'Number'});
-    
-    return resetedQuestionQuestions;
-}
-
 const getUpdatedNumberQuestions = (questionList: QuestionTemplateList, id: string, question: string): CreateQuestionTemplate[] => {
     const resetedQuestionQuestions = getUpdatedQuestions(questionList, {id, question});
-    
-    return resetedQuestionQuestions;
-}
-
-const getResetedYesNoQuestions = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
-    const resetedQuestionQuestions = getResetedQuestions(questionList, {id, type: 'YesNo'});
     
     return resetedQuestionQuestions;
 }
@@ -510,16 +369,6 @@ const getResetedFileUploadQuestions = (questionList: QuestionTemplateList, id: s
 
 const getUpdatedFileUploadQuestions = (questionList: QuestionTemplateList, id: string, question: string): CreateQuestionTemplate[] => {
     const resetedQuestionQuestions = getUpdatedQuestions(questionList, {id, question});
-    
-    return resetedQuestionQuestions;
-}
-
-
-const getResetedChoicesQuestions = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
-    const resetedQuestionQuestions = 
-        getResetedQuestions(
-            questionList, {id, type: 'MultipleChoice', choices: [getNewChoice(questionList, id)]},
-        );
     
     return resetedQuestionQuestions;
 }
@@ -575,32 +424,9 @@ const getRemovedChoicesChoiceQuestions = (questionList: QuestionTemplateList, id
     return updatedQuestions;
 }
 
-const getQuestionsAfterAppendingChoice = (questionList: QuestionTemplateList, questionId: string): CreateQuestionTemplate[] => {
-
-    const updatedQuestions = questionList.map(q => {
-        if(q.id === questionId)
-        {
-            const oldChoices = q.choices || [];
-
-            const updatedChoices = [...oldChoices, getNewChoice(questionList, q.id)]
-            return  {...q, choices: updatedChoices}
-        }
-        return q
-    });
-    
-    return updatedQuestions;
-}
-
 const getAppendedList = (questionList: QuestionTemplateList, question: CreateQuestionTemplate): CreateQuestionTemplate[] => {
     
     return [...questionList, question]
-}
-
-const getResetedLists = (questionList: QuestionTemplateList, question: CreateQuestionTemplate): CreateQuestionTemplate[] => {
-    
-    const updatedList = questionList.map(x => x.id === question.id ? question : x);
-    
-    return updatedList;
 }
 
 const getFilteredList = (questionList: QuestionTemplateList, id: string): CreateQuestionTemplate[] => {
@@ -612,13 +438,6 @@ const getFilteredList = (questionList: QuestionTemplateList, id: string): Create
 const findQuestionById = (questionList: QuestionTemplateList, id: string) => {
     return questionList.find(x => x.id === id);
 }
-
-const findChoiceById = (question: CreateQuestionTemplate, choiceId: string) => {
-    
-    return question.choices?.filter( x=> x.id === choiceId);
-    
-}
-
 
 const getNextQuestionId = (questions: QuestionTemplateList) => {
     const maxId = questions.reduce((maxId, question) => Math.max(+(question.id || 1), maxId), -1)
@@ -648,18 +467,13 @@ const getNextChoiceId = (questions: QuestionTemplateList, questionId: string) =>
 
 type QuestionTemplateList = CreateQuestionTemplate[];
 
-export interface QuestionState {
+interface QuestionState {
     questions: CreateQuestionTemplate[];
 }
 
 type QuestionAction = 
 | AddQuestion 
 | RemoveQuestion 
-| SET_QUESTION_TO_PARAGRAPH 
-| SET_QUESTION_TO_PARAGRAPH
-| SET_QUESTION_TO_SHORT_ANSWER | SET_QUESTION_TO_DROP_DOWN | SET_QUESTION_TO_MULTIPLE_CHOICE
-| SET_QUESTION_TO_DATE | SET_QUESTION_TO_NUMBER | SET_QUESTION_TO_YES_NO
-| SET_QUESTION_TO_FILE_UPLOAD
 | UPDATE_QUESTION_TEXT
 | UPDATE_QUESTION_PARAGRAPH
 | UPDATE_QUESTION_SHORT_ANSWER
@@ -681,26 +495,7 @@ type QuestionAction =
 
 //ADD OR REMOVE
 type AddQuestion = {type: QuestionActionKind.ADD_QUESTION }
-
 type RemoveQuestion = { type: QuestionActionKind.REMOVE_QUESTION, id: string}
-
-
-//SET
-type SET_QUESTION_TO_PARAGRAPH = {type: QuestionActionKind.SET_QUESTION_TO_PARAGRAPH, id: string}
-
-type SET_QUESTION_TO_SHORT_ANSWER = {type: QuestionActionKind.SET_QUESTION_TO_SHORT_ANSWER, id: string}
-
-type SET_QUESTION_TO_DROP_DOWN = {type: QuestionActionKind.SET_QUESTION_TO_DROP_DOWN, id: string}
-
-type SET_QUESTION_TO_MULTIPLE_CHOICE = {type: QuestionActionKind.SET_QUESTION_TO_MULTIPLE_CHOICE, id: string}
-
-type SET_QUESTION_TO_DATE = {type: QuestionActionKind.SET_QUESTION_TO_DATE, id: string}
-
-type SET_QUESTION_TO_NUMBER = {type: QuestionActionKind.SET_QUESTION_TO_NUMBER, id: string}
-
-type SET_QUESTION_TO_YES_NO = {type: QuestionActionKind.SET_QUESTION_TO_YES_NO, id: string}
-
-type SET_QUESTION_TO_FILE_UPLOAD = {type: QuestionActionKind.SET_QUESTION_TO_FILE_UPLOAD, id: string}
 
 //UPDATE
 
@@ -762,17 +557,6 @@ type UPDATE_QUESTION_DROP_DOWN_CHOICE =
     payload: {questionId: string,choiceId: string}
 }
 
-export enum SetQuestionActionKind {
-    SET_QUESTION_TO_PARAGRAPH = "SET_QUESTION_TO_PARAGRAPH",
-    SET_QUESTION_TO_SHORT_ANSWER = "SET_QUESTION_TO_SHORT_ANSWER",
-    SET_QUESTION_TO_DROP_DOWN = "SET_QUESTION_TO_DROP_DOWN",
-    SET_QUESTION_TO_MULTIPLE_CHOICE = "SET_QUESTION_TO_MULTIPLE_CHOICE",
-    SET_QUESTION_TO_DATE = "SET_QUESTION_TO_DATE",
-    SET_QUESTION_TO_NUMBER = "SET_QUESTION_TO_NUMBER",
-    SET_QUESTION_TO_YES_NO = "SET_QUESTION_TO_YES_NO",
-    SET_QUESTION_TO_FILE_UPLOAD = "ADD_FILE_UPLOAD",
-}
-
 export enum UpdateQuestionActionKind {
     UPDATE_QUESTION_PARAGRAPH = "UPDATE_QUESTION_PARAGRAPH",
     UPDATE_QUESTION_SHORT_ANSWER = "UPDATE_QUESTION_SHORT_ANSWER",
@@ -789,18 +573,7 @@ export enum QuestionActionKind {
     ADD_QUESTION = 'ADD_QUESTION',
     REMOVE_QUESTION = 'REMOVE_QUESTION',
     
-    SET_QUESTION_TO_PARAGRAPH = "SET_QUESTION_TO_PARAGRAPH",
-    SET_QUESTION_TO_SHORT_ANSWER = "SET_QUESTION_TO_SHORT_ANSWER",
-    SET_QUESTION_TO_DROP_DOWN = "SET_QUESTION_TO_DROP_DOWN",
-    SET_QUESTION_TO_MULTIPLE_CHOICE = "SET_QUESTION_TO_MULTIPLE_CHOICE",
-    SET_QUESTION_TO_DATE = "SET_QUESTION_TO_DATE",
-    SET_QUESTION_TO_NUMBER = "SET_QUESTION_TO_NUMBER",
-    SET_QUESTION_TO_YES_NO = "SET_QUESTION_TO_YES_NO",
-    SET_QUESTION_TO_FILE_UPLOAD = "ADD_FILE_UPLOAD",
-    
     UPDATE_QUESTION_TEXT = "UPDATE_QUESTION_TEXT",
-
-
     UPDATE_QUESTION_PARAGRAPH = "UPDATE_QUESTION_PARAGRAPH",
     UPDATE_QUESTION_SHORT_ANSWER = "UPDATE_QUESTION_SHORT_ANSWER",
     UPDATE_QUESTION_DROP_DOWN = "UPDATE_QUESTION_DROP_DOWN",
@@ -820,17 +593,6 @@ export enum QuestionActionKind {
     REMOVE_CHOICE_FROM_QUESTION_DROP_DOWN = "REMOVE_CHOICE_FROM_QUESTION_DROP_DOWN",
     UPDATE_QUESTION_DROP_DOWN_CHOICE = "UPDATE_DROP_DOWN_CHOICE",
 }
-
-
-export type SET_QUESTION_TYPE = |
-QuestionActionKind.SET_QUESTION_TO_PARAGRAPH
- |QuestionActionKind.SET_QUESTION_TO_SHORT_ANSWER
- | QuestionActionKind.SET_QUESTION_TO_YES_NO
- | QuestionActionKind.SET_QUESTION_TO_DROP_DOWN
- | QuestionActionKind.SET_QUESTION_TO_MULTIPLE_CHOICE
- | QuestionActionKind.SET_QUESTION_TO_DATE
- | QuestionActionKind.SET_QUESTION_TO_NUMBER
- | QuestionActionKind.SET_QUESTION_TO_FILE_UPLOAD
  
  export type UPDATE_QUESTION_TYPE = |
  QuestionActionKind.UPDATE_QUESTION_PARAGRAPH

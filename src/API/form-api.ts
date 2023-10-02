@@ -1,4 +1,4 @@
-import { ApplicationFOrmApi } from "../types";
+import { ApplicationFOrmApi, QuestionTemplate } from "../types";
 
 const FORM_URL = 'http://127.0.0.1:4010/api/95.72932501148875/programs/adipisci/application-form';
 
@@ -8,7 +8,7 @@ export const getFormAPI = () => {
     
 }
 
-export const putFormAPI = (data: ApplicationFOrmApi) => {
+export const putFormAPI = (data: ApplicationFOrmApi<QuestionTemplate>) => {
     return fetch(FORM_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

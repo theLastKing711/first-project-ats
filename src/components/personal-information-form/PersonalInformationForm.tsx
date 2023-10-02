@@ -2,10 +2,6 @@ import { CSSProperties } from "react";
 import FormInput from "../form/FormInput";
 import { PersonalInformation } from "../../types";
 
-const rootStyles: CSSProperties = {
-  padding: "1.5rem 1rem",
-};
-
 const phoneNumberLabelStyles: CSSProperties = {
   color: "#000",
   fontFamily: "Poppins",
@@ -26,93 +22,6 @@ const phoneNumberLabelSpanStyles: CSSProperties = {
   flex: 1,
 };
 
-// An interface for our actions
-interface FormAction {
-  type: FormActionKind;
-  payload: number;
-}
-
-enum FormActionKind {
-  SET_FIRST_NAME = "SET_FIRST_NAME",
-  SET_LAST_NAME = "SET_LAST_NAME",
-  SET_EMAIL = "SET_EMAIL",
-  SET_PHONE = "SET_PHONE",
-  SET_NATIONALITY = "SET_NATIONALITY",
-  SET_CURRENT_RESIDENCE = "SET_CURRENT_RESIDENCE",
-  SET_ID_NUMBER = "SET_ID_NUMBER",
-  SET_DATE_BIRTH = "SET_DATE_BIRTH",
-  SET_GENDER = "SET_GENDER",
-}
-
-// An interface for our state
-interface FormState {
-  firstName: FormFieldDetails;
-  lastName: FormFieldDetails;
-  email: FormFieldDetails;
-  phoneNumber: FormFieldDetails;
-  nationality: FormFieldDetails;
-  currentResidence: FormFieldDetails;
-  idNumber: FormFieldDetails;
-  dateOfBirth: FormFieldDetails;
-  gender: FormFieldDetails;
-}
-
-interface FormFieldDetails {
-  internalUse: boolean;
-  show: boolean;
-}
-
-const intialFormState = {
-  firstName: {
-    internalUser: false,
-    show: false,
-  },
-  lastName: {
-    internalUser: false,
-    show: false,
-  },
-  emailId: {
-    internalUser: false,
-    show: false,
-  },
-  phoneNumberNumber: {
-    internalUser: false,
-    show: false,
-  },
-  nationality: {
-    internalUser: false,
-    show: false,
-  },
-  currentResidence: {
-    internalUser: false,
-    show: false,
-  },
-  idNumber: {
-    internalUser: false,
-    show: false,
-  },
-  dateOfBirth: {
-    internalUser: false,
-    show: false,
-  },
-  gender: {
-    internalUser: false,
-    show: false,
-  },
-};
-
-function formReducer(state: FormState, action: FormAction) {
-  const { type, payload } = action;
-  switch (type) {
-    case FormActionKind.SET_FIRST_NAME:
-      return {
-        ...state,
-      };
-    default:
-      return state;
-  }
-}
-
 const phoneNumberLabelElement = (
   <label htmlFor="Phone" style={phoneNumberLabelStyles}>
     Phone <span style={phoneNumberLabelSpanStyles}>(without dial code)</span>
@@ -130,20 +39,6 @@ const PersonalInformationForm = ({
   personalInformation,
   onPersonalInformationChange,
 }: Props) => {
-  // const [formState, dispatch] = useReducer(formReducer, intialFormState);
-
-  console.log("personal information", personalInformation);
-
-  // const updateField = <T extends keyof PersonalInformation, U extends keyof T>(personalInformation: PersonalInformation, updatedField: T, field: U, fieldValue: T[U]) => {
-
-  //   const updatedData: PersonalInformation = {...personalInformation, [updatedField]: {
-  //     ...personalInformation[updatedField],
-  //     [field]: fieldValue
-  //   } }
-
-  //   onPersonalInformationChange(updatedData);
-  // }
-
   const updateField = (
     info: PersonalInformation,
     updatedData: Partial<PersonalInformation>
@@ -152,8 +47,6 @@ const PersonalInformationForm = ({
       ...info,
       ...updatedData,
     };
-
-    console.log("updated data", newData.phoneNumber);
 
     onPersonalInformationChange(newData);
   };
@@ -267,7 +160,7 @@ const PersonalInformationForm = ({
   };
 
   return (
-    <div style={rootStyles}>
+    <div>
       <FormInput id="first-name" label="First name" />
       <FormInput id="last-name" label="Last name" />
       <FormInput id="email" label="Email" />
@@ -330,6 +223,7 @@ const PersonalInformationForm = ({
           onIsInternalChange: handleGenderIsInternalChange,
           onShownChange: handleGenderIsShownChange,
         }}
+        shouldShowSeperator={false}
       />
     </div>
   );

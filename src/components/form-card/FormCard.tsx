@@ -23,21 +23,28 @@ const cardHeadStyles: CSSProperties = {
   fontStyle: "normal",
   fontWeight: 600,
   lineHeight: "114%",
-  marginBottom: "4.19rem",
+};
+
+const bodyStyles: CSSProperties = {
+  padding: "2.4rem 1.88rem 2rem",
 };
 
 interface Props {
   children: React.ReactNode;
   title: string;
+  contentStyles?: CSSProperties;
 }
 
-const FormCard = ({ title, children }: Props) => {
+const FormCard = ({ title, children, contentStyles }: Props) => {
+  const mergedBodyStyles = { ...bodyStyles, ...contentStyles };
+
   return (
     <Card
       size="small"
       title={title}
       style={CardStyles}
       headStyle={cardHeadStyles}
+      bodyStyle={mergedBodyStyles}
     >
       {children}
     </Card>
