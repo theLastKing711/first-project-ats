@@ -5,7 +5,7 @@ import { Button } from "antd";
 
 const removeQuestionContainerStyles: CSSProperties = {
   display: "flex",
-  gap: "0.rem",
+  gap: "0.5rem",
   alignItems: "center",
 };
 
@@ -31,18 +31,24 @@ const removeQuestionLabel: CSSProperties = {
 
 interface Props {
   handleButtonClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  labelText?: string;
+  rootStyles?: CSSProperties;
 }
 
-const RemoveQuestionButton = ({ handleButtonClick }: Props) => {
+const RemoveQuestionButton = ({
+  handleButtonClick,
+  labelText = "Delete question",
+  rootStyles = {},
+}: Props) => {
   return (
-    <div>
+    <div style={rootStyles}>
       <div style={removeQuestionContainerStyles}>
         <Button
           style={removeButtonStyles}
           icon={<PlusOutlined style={removeIconStyles} />}
           onClick={handleButtonClick}
         />
-        <label style={removeQuestionLabel}>Delete question</label>
+        <label style={removeQuestionLabel}>{labelText}</label>
       </div>
     </div>
   );

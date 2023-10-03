@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-// import styles from "./MainNav.styles.css";
 
 const navStyles: CSSProperties = {
   height: 1500,

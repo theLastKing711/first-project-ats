@@ -1,5 +1,6 @@
 import uuid from 'react-uuid';
 import { ApplicationFOrmApi, CreateChoice, CreateQuestionTemplate, QuestionTemplate } from './types';
+import { RcFile } from 'antd/es/upload';
 
 
 export const trasnformFormDataToClientShape = (formData: ApplicationFOrmApi<QuestionTemplate>): ApplicationFOrmApi => {
@@ -82,3 +83,26 @@ export const trasnformToServerQuestions = (questions: CreateQuestionTemplate[] =
   });
   
 }
+
+
+
+  export const getBase64 = (file: File): Promise<string> =>
+  {
+    
+    return new Promise((resolve, reject) => { 
+      const reader = new FileReader()
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        resolve(reader.result as string)
+      };
+      reader.onerror = function (error) {
+        reject(new Error('askldj'))
+      };
+    });
+    
+  }
+  // const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+  //   const reader = new FileReader();
+  //   reader.addEventListener('load', () => callback(reader.result as string));
+  //   reader.readAsDataURL(img);
+  // };

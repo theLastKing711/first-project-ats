@@ -1,6 +1,9 @@
 import { Card } from "antd";
 import React, { CSSProperties } from "react";
 
+export const CARD_WIDTH: string = "37.1rem";
+export const CARD_BOTTOM_MARGIN: string = "4.19rem";
+
 const CardStyles: CSSProperties = {
   color: "#000",
   fontFamily: "Poppins",
@@ -8,10 +11,11 @@ const CardStyles: CSSProperties = {
   fontStyle: "normal",
   fontWeight: 600,
   lineHeight: "114%",
-  width: "37.1rem",
-  borderRadius: "1.25rem 1.25rem 0rem 0rem",
+  width: CARD_WIDTH,
+  borderRadius: "1.25rem 1.25rem",
+  marginBottom: CARD_BOTTOM_MARGIN,
+  boxShadow: "3px 3px 14px 0px rgba(190, 190, 190, 0.30)",
   overflow: "auto",
-  marginBottom: "4.19rem",
 };
 
 const cardHeadStyles: CSSProperties = {

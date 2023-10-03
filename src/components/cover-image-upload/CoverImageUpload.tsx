@@ -1,6 +1,8 @@
-import { Upload, UploadProps } from "antd";
-import { CSSProperties } from "react";
+import { Progress, Spin, Upload } from "antd";
+import { CSSProperties, useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
+import type { UploadProps } from "antd/es/upload";
+import FormCard from "../form-card/FormCard";
 
 const mainContainerStyles: CSSProperties = {
   border: "1px dashed #000",
@@ -40,20 +42,31 @@ interface Props {
   handleImageUpload: UploadProps["customRequest"];
 }
 
+const spinner = <Spin style={{ marginTop: "0.825rem" }} />;
+
 const CoverImageUpload = ({ handleImageUpload }: Props) => {
+  const handleRequest: UploadProps["customRequest"] = async (options) => {
+    setIsInProgress(true);
+    await handleImageUpload?.(options);
+    setIsInProgress(false);
+  };
+
   return (
-    <Upload.Dragger
-      style={mainContainerStyles}
-      customRequest={handleImageUpload}
-    >
-      <div style={contentStyles}>
-        <DownloadOutlined style={iconStyles} />
-        <h3 style={mainTextStyles}>Upload cover image</h3>
-        <h4 style={secondaryTextStyles}>
-          16:9 ratio is recommended. Max image size 1mb
-        </h4>
-      </div>
-    </Upload.Dragger>
+    <FormCard title="Upload cover image">
+      <Upload.Dragger
+        style={mainContainerStyles}
+        customRequest={handleRequest}
+        itemRender={() => spinner}
+      >
+        <div style={contentStyles}>
+          <DownloadOutlined style={iconStyles} />
+          <h3 style={mainTextStyles}>Upload cover image</h3>
+          <h4 style={secondaryTextStyles}>
+            16:9 ratio is recommended. Max image size 1mb
+          </h4>
+        </div>
+      </Upload.Dragger>
+    </FormCard>
   );
 };
 

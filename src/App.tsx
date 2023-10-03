@@ -3,13 +3,17 @@ import { CSSProperties } from "react";
 import { Content } from "antd/es/layout/layout";
 import AppSideBar from "./components/app-side-bar/AppSideBar";
 import AppHeader from "./components/app-header/AppHeader";
-import UploadFormCard from "./components/upload-image-card/UploadImageCard";
 import PersonalInformationCard from "./components/personal-information-card/PersonalInformationCard";
 import AdditionalQuestions from "./components/additional-questions/AdditionalQuestions";
 import useForm from "./hooks/useForm";
-import { CreateQuestionTemplate } from "./types";
+import { ApplicationFOrmApi, CreateQuestionTemplate } from "./types";
 import AddQuestions from "./components/add-questions/AddQuestions";
 import CoverImageUpload from "./components/cover-image-upload/CoverImageUpload";
+import { getBase64 } from "./utils";
+import { RcFile } from "antd/es/upload";
+import UpdateUploadImage from "./components/update-upload-image/UpdateUploadImage";
+import RemoveQuestionButton from "./components/remove-question-button/RemoveQuestionButton";
+import UploadOrUploadedImage from "./components/upload-or-Uploaded-image/UploadOrUploadedImage";
 
 export const ASIDE_WIDTH = "7.11206rem";
 
@@ -20,9 +24,10 @@ const contentLayoutStyles: CSSProperties = {
 
 function App() {
   const {
+    MockImageUrl,
+    updateMockIMage,
     form,
     updateCoverImageApi,
-    removeCoverImageApi,
     addPersonalInformationQuestionApi,
     addCusomizedQuestionApi,
     updateCustomizedQuestionsApi,
@@ -59,8 +64,22 @@ function App() {
     return form?.data.attributes.customisedQuestions.length > 0;
   };
 
-  const uploadImage: UploadProps["customRequest"] = (options) => {
-    updateCoverImageApi("https://www.ionos.com");
+  const uploadImage: UploadProps["customRequest"] = async (
+    options
+  ): Promise<ApplicationFOrmApi<CreateQuestionTemplate>> => {
+    const base64Image = await getBase64(options.file as RcFile);
+    const result = await updateCoverImageApi(base64Image)!;
+
+    updateMockIMage(base64Image);
+    return result;
+  };
+
+  const deleteImage = async (): Promise<
+    ApplicationFOrmApi<CreateQuestionTemplate>
+  > => {
+    const result = await updateCoverImageApi("")!;
+    updateMockIMage("");
+    return result;
   };
 
   return (
@@ -73,41 +92,47 @@ function App() {
       >
         <AppHeader />
         <Content style={contentLayoutStyles}>
-          <div
-            style={{
-              height: 1500,
-              color: "blue",
-            }}
-          >
-            {form && (
-              <>
-                <UploadFormCard
-                  imageUpload={
-                    <CoverImageUpload handleImageUpload={uploadImage} />
-                  }
-                />
-                <PersonalInformationCard
-                  addQuestionNode={
-                    <AddQuestions
-                      handleQuestionAddedApi={addPersonalInformationQuestions}
-                      shouldShowInitalSeperator={shouldShowInitalSeperator}
-                    />
-                  }
-                />
-                <AdditionalQuestions
-                  customisedQuestions={form.data.attributes.customisedQuestions}
-                  handleUpdate={updateCustomizedQuestions}
-                  handleDelete={deleteCustomizedQuestions}
-                  addQuestionNode={
-                    <AddQuestions
-                      handleQuestionAddedApi={addAdditionalQuestion}
-                      shouldShowInitalSeperator={shouldShowInitalSeperator}
-                    />
-                  }
-                />
-              </>
-            )}
-          </div>
+          {form && (
+            <>
+              <UploadOrUploadedImage
+                coverImage={MockImageUrl}
+                uploadNode={
+                  <CoverImageUpload handleImageUpload={uploadImage} />
+                }
+                uploadedNode={
+                  <UpdateUploadImage
+                    removeButton={
+                      <RemoveQuestionButton
+                        labelText="Delete & re-upload"
+                        handleButtonClick={deleteImage}
+                      />
+                    }
+                    imgUrl={MockImageUrl}
+                  />
+                }
+              />
+
+              <PersonalInformationCard
+                addQuestionNode={
+                  <AddQuestions
+                    handleQuestionAddedApi={addPersonalInformationQuestions}
+                    shouldShowInitalSeperator={shouldShowInitalSeperator}
+                  />
+                }
+              />
+              <AdditionalQuestions
+                customisedQuestions={form.data.attributes.customisedQuestions}
+                handleUpdate={updateCustomizedQuestions}
+                handleDelete={deleteCustomizedQuestions}
+                addQuestionNode={
+                  <AddQuestions
+                    handleQuestionAddedApi={addAdditionalQuestion}
+                    shouldShowInitalSeperator={shouldShowInitalSeperator}
+                  />
+                }
+              />
+            </>
+          )}
         </Content>
       </Layout>
     </Layout>

@@ -6,6 +6,15 @@ import { trasnformFormDataToClientShape, trasnformFormDataToServerShape } from "
 const useForm = () => {
   
   const [form, setForm] = useState<ApplicationFOrmApi | undefined>(undefined);
+  const [MockImageUrl, setMockImageUrl] = useState<string | undefined>('')
+
+  const deleteMockImage = () => {
+    setMockImageUrl(undefined);
+  }
+
+  const updateMockIMage = (newUrl: string) => {
+    setMockImageUrl(newUrl);
+  }
 
   const getData = () => {
     return getFormAPI()
@@ -184,6 +193,9 @@ const useForm = () => {
   }
   
   return {
+    MockImageUrl,
+    updateMockIMage,
+    deleteMockImage,
     form,
     updateForm,
     updateCoverImageApi,
